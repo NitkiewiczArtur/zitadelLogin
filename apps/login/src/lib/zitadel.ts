@@ -48,6 +48,7 @@ import {
 import { unstable_cacheLife as cacheLife } from "next/cache";
 import { getUserAgent } from "./fingerprint";
 import { createServiceForHost } from "./service";
+import { error } from "console";
 
 const useCache = process.env.DEBUG !== "true";
 
@@ -863,7 +864,11 @@ export async function getDefaultOrg({
       },
       {},
     )
-    .then((resp) => (resp?.result && resp.result[0] ? resp.result[0] : null));
+    .then((resp) => (resp?.result && resp.result[0] ? resp.result[0] : null))
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
 }
 
 export async function getOrgsByDomain({
